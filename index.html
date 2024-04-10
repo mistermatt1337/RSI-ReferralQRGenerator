@@ -5,96 +5,188 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <script src="js/qrcode.min.js"></script>
+    <script src="js/easy.qrcode.min.js"></script>
+    <!--script src="js/qrcode.min.js"></script-->
 </head>
 <body>
-    <div id="appArea">
-        <h1>RSI Referral QR Code Generator</h1>
-        <input type="text" id="referralCode" placeholder="STAR-XXXX-XXXX">
-        <button type="button" id="generateButton">Generate QR Code</button>        
-        <div id="outputData">
-            <div id="qrcode"></div>
-        </div>
+<div id="appArea">
+    <h1>RSI Referral QR Code Generator</h1>
+    <div class="input-group">
+        <label for="logoInput">Logo:</label>
+        <input type="file" id="logoInput" accept="image/*">
     </div>
-    <footer id="footer">
-        <button type="button" id="aboutButton">About</button>
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h1>Like what we're doing? </h1><p>Here are some ways you can show your appreciation</p>
-                <div class="box"><div class="content">
-                    <a href="https://bit.ly/3TP4yKD" target="_blank" rel="noopener">
-                    <button name="GitHub Sponsor"  type="button">Support on GitHub</button></a></div>
-                </div>
-                <div class="box"><div class="content">
-                    <a href="https://bit.ly/SCOpenDevPatreon" target="_blank" rel="noopener">
-                    <button name="Patreon Sponsor"  type="button">Support on Patreon</button></a></div>
-                </div>
-                <div class="box"><div class="content">
-                    <a href="https://bit.ly/SCBonus5K" target="_blank" rel="noopener">
-                    <button name="RSI Referral"  type="button">Enlist on RSI</button></a></div>
-                </div>
+    <div class="input-group">
+        <label for="backgroundInput">Background:</label>
+        <input type="file" id="backgroundInput" accept="image/*">
+    </div>
+    <div class="input-group">
+        <label for="referralCode">Referral Code:</label>
+        <input type="text" id="referralCode" placeholder="STAR-XXXX-XXXX" maxlength="64">
+        <script>
+            let referralCodeInput = document.getElementById('referralCode');
+            referralCodeInput.addEventListener('input', function() {
+                // Only allow alphanumeric characters and hyphens
+                this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '');
+            });
+        </script>
+    </div>
+    <button type="button" id="actionButton">Generate QR Code</button>
+    <div id="outputData">
+        <div id="qrcode"></div>
+    </div>
+</div>
+<footer id="footer">
+    <button type="button" id="aboutButton">About</button>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1>Like what we're doing? </h1><p>Here are some ways you can show your appreciation</p>
+            <div class="box"><div class="content">
+                <a href="https://bit.ly/3TP4yKD" target="_blank" rel="noopener">
+                <button name="GitHub Sponsor"  type="button">Support on GitHub</button></a></div>
+            </div>
+            <div class="box"><div class="content">
+                <a href="https://bit.ly/SCOpenDevPatreon" target="_blank" rel="noopener">
+                <button name="Patreon Sponsor"  type="button">Support on Patreon</button></a></div>
+            </div>
+            <div class="box"><div class="content">
+                <a href="https://bit.ly/SCBonus5K" target="_blank" rel="noopener">
+                <button name="RSI Referral"  type="button">Enlist on RSI</button></a></div>
             </div>
         </div>
-        <p id="disclaimer">This is an unofficial Star Citizen fansite, not affiliated with the Cloud Imperium group of companies. All content on this site not authored by its host or users are property of their respective owners.</p>
-    </footer>
-    <script>
-        document.getElementById('generateButton').addEventListener('click', generateQR);
-        referallBase = 'https://robertsspaceindustries.com/?referral=';
+    </div>
+    <p id="disclaimer">This is an unofficial Star Citizen fansite, not affiliated with the Cloud Imperium group of companies. All content on this site not authored by its host or users are property of their respective owners.</p>
+</footer>
+<script>
+    document.getElementById('actionButton').addEventListener('click', function(event) {
+        let buttonText = event.target.textContent.toUpperCase();
+        if (buttonText.startsWith('GENERATE')) {
+            generateQR(event.target);
+        } else if (buttonText.startsWith('DOWNLOAD')) {
+            downloadQR(event.target);
+        } else if (buttonText.startsWith('RESET')) {
+            location.reload();
+        }
+    });
+    referallBase = 'https://robertsspaceindustries.com/?referral=';
+    async function generateQR(button) {
+        let input = document.getElementById('referralCode').value.toUpperCase();
+        let match = input.match(/STAR-\w{4}-\w{4}/i);
+        if (match) {
+            let data = match[0];
+            let url = referallBase + data;
+            let options = {
+                drawer: 'svg',
+                size: 256,
+                logo: await getLogoUrl(),
+                logoWidth: 64,
+                logoHeight: 64,
+                logoBackgroundColor: '#ffffff',
+                logoBackgroundTransparent: false,
+                backgroundImage: await getBackgroundUrl(),
+                backgroundImageAlpha: 0.5,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H,
+                text: url,
+                tooltip: true,
+            };
+            console.log(options);
+            let qrcode = new QRCode(document.getElementById("qrcode"), options);
+            document.getElementById('outputData').style.display = 'block';
+            document.getElementById('referralCode').disabled = true;
+            document.getElementById('logoInput').disabled = true;
+            document.getElementById('backgroundInput').disabled = true;
 
-        function generateQR() {
-            let input = document.getElementById('referralCode').value;
-            let match = input.match(/STAR-\w{4}-\w{4}/i);
-            if (match) {
-                let data = match[0];
-                let url = referallBase + data;
-                let qrcode = new QRCode(document.getElementById("qrcode"), {
-                    text: url,
-                    width: 128,
-                    height: 128
-                });
-                // Reveal the #outputData element
-                document.getElementById('outputData').style.display = 'block';
-            } else {
-                // Create a new notification element
-                let notification = document.createElement('div');
-                notification.className = 'notification';
-                notification.textContent = 'Invalid input. Please enter a referral code in the format STAR-XXXX-XXXX.';
-                
-                // Add the notification to the DOM
-                document.body.appendChild(notification);
-                
-                // Remove the notification after 5 seconds
-                setTimeout(function() {
-                    document.body.removeChild(notification);
-                }, 5000);
-            }
+            button.textContent = 'DOWNLOAD';
+        } else {
+            // Create a new notification element
+            let notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = 'Invalid input. Please enter a referral code in the format STAR-XXXX-XXXX.';
+            // Add the notification to the DOM
+            document.body.appendChild(notification);
+            // Remove the notification after 5 seconds
+            setTimeout(function() {
+                document.body.removeChild(notification);
+            }, 5000);
         }
-        document.getElementById('aboutButton').addEventListener('click', function() {
-            openModal();
+    }
+    function downloadQR(button) {
+        let qrcode = document.getElementById('qrcode');
+        let canvas = qrcode.querySelector('canvas');
+        let svg = qrcode.querySelector('svg');
+    
+        if (canvas) {
+            let canvasData = canvas.toDataURL('image/png');
+            let a = document.createElement('a');
+            a.download = 'qrcode.png';
+            a.href = canvasData;
+            a.click();
+        } else if (svg) {
+            let svgData = new XMLSerializer().serializeToString(svg);
+            let a = document.createElement('a');
+            a.download = 'qrcode.svg';
+            a.href = 'data:image/svg+xml;base64,' + btoa(svgData);
+            a.click();
+        } else {
+            console.error('Neither canvas nor SVG element found');
+        }
+    
+        // Change the button text after a successful download
+        button.textContent = 'RESET';
+    }
+    function getLogoUrl() {
+        let logoInput = document.getElementById('logoInput');
+        if (logoInput.files.length > 0) {
+            return new Promise((resolve, reject) => {
+                let reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(logoInput.files[0]);
+            });
+        } else {
+            return Promise.resolve(null); // No logo
+        }
+    }
+    
+    function getBackgroundUrl() {
+        let backgroundInput = document.getElementById('backgroundInput');
+        if (backgroundInput.files.length > 0) {
+            return new Promise((resolve, reject) => {
+                let reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(backgroundInput.files[0]);
+            });
+        } else {
+            return Promise.resolve(null); // No background
+        }
+    }
+    document.getElementById('aboutButton').addEventListener('click', function() {
+        openModal();
+    });
+    function openModal() {
+        console.log('openModal');
+        var modal = document.getElementById("myModal");
+        var span = document.getElementsByClassName("close")[0];
+        modal.style.display = "block";
+        span.addEventListener('click', function() {
+            closeModal(modal);
         });
-        function openModal() {
-            console.log('openModal');
-            var modal = document.getElementById("myModal");
-            var span = document.getElementsByClassName("close")[0];
-            modal.style.display = "block";
-            span.addEventListener('click', function() {
-                closeModal(modal);
-            });
-            window.addEventListener('click', function(event) {
-                closeOnOutsideClick(event, modal);
-            });
-        }
-        function closeModal(modal) {
+        window.addEventListener('click', function(event) {
+            closeOnOutsideClick(event, modal);
+        });
+    }
+    function closeModal(modal) {
+        modal.style.display = "none";
+    }
+    function closeOnOutsideClick(event, modal) {
+        if (event.target == modal) {
+            event.stopPropagation();
             modal.style.display = "none";
         }
-        function closeOnOutsideClick(event, modal) {
-            if (event.target == modal) {
-                event.stopPropagation();
-                modal.style.display = "none";
-            }
-        }
-    </script>
-
+    }
+</script>
 </body>
 </html>
