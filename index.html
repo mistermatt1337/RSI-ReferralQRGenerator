@@ -3,60 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Generator</title>
+    <title>RSI-ReferralQRGenerator | An SC-Open.dev Project</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/footer.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="img/favicon-64x64.png">
     <script src="js/easy.qrcode.min.js"></script>
-    <!--script src="js/qrcode.min.js"></script-->
 </head>
 <body>
 <div id="appArea">
-    <h1>RSI Referral QR Code Generator</h1>
-    <div class="input-group">
-        <label for="logoInput">Logo:</label>
-        <input type="file" id="logoInput" accept="image/*">
+    <div id="inputData">
+        <h1>RSI Referral QR Code Generator</h1>
+        <div class="box">
+            <label for="logoInput">Logo:</label>
+            <input type="file" id="logoInput" accept="image/*">
+        </div>
+        <div class="box">
+            <label for="backgroundInput">Background:</label>
+            <input type="file" id="backgroundInput" accept="image/*">
+        </div>
+        <div class="box">
+            <label for="referralCode">Referral Code:</label>
+            <input type="text" id="referralCode" placeholder="STAR-XXXX-XXXX" maxlength="64">
+            <script>
+                let referralCodeInput = document.getElementById('referralCode');
+                referralCodeInput.addEventListener('input', function() {
+                    // Only allow alphanumeric characters and hyphens
+                    this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '');
+                });
+            </script>
+        </div>
+        <div class="box"><button type="button" id="actionButton">Generate QR Code</button></div>
     </div>
-    <div class="input-group">
-        <label for="backgroundInput">Background:</label>
-        <input type="file" id="backgroundInput" accept="image/*">
-    </div>
-    <div class="input-group">
-        <label for="referralCode">Referral Code:</label>
-        <input type="text" id="referralCode" placeholder="STAR-XXXX-XXXX" maxlength="64">
-        <script>
-            let referralCodeInput = document.getElementById('referralCode');
-            referralCodeInput.addEventListener('input', function() {
-                // Only allow alphanumeric characters and hyphens
-                this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '');
-            });
-        </script>
-    </div>
-    <button type="button" id="actionButton">Generate QR Code</button>
     <div id="outputData">
-        <div id="qrcode"></div>
+        <div id="qrcode" class="box"></div>
     </div>
 </div>
 <footer id="footer">
-    <button type="button" id="aboutButton">About</button>
+    <div class="box"><button type="button" id="aboutButton">About</button></div>
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h1>Like what we're doing? </h1><p>Here are some ways you can show your appreciation</p>
-            <div class="box"><div class="content">
-                <a href="https://bit.ly/3TP4yKD" target="_blank" rel="noopener">
-                <button name="GitHub Sponsor"  type="button">Support on GitHub</button></a></div>
-            </div>
-            <div class="box"><div class="content">
-                <a href="https://bit.ly/SCOpenDevPatreon" target="_blank" rel="noopener">
-                <button name="Patreon Sponsor"  type="button">Support on Patreon</button></a></div>
-            </div>
-            <div class="box"><div class="content">
-                <a href="https://bit.ly/SCBonus5K" target="_blank" rel="noopener">
-                <button name="RSI Referral"  type="button">Enlist on RSI</button></a></div>
+            <div id="badges">
+                <object title="GitHub Organization Badge" data="https://img.shields.io/badge/SC--Open-gold?style=for-the-badge&link=https%3A%2F%2Fgithub.com%2FSC-Open" type="image/svg+xml"></object>
+                <object title="GitHub Repo Badge" data="https://img.shields.io/badge/RSI--ReferralQRGenerator-blue?style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2FSC-Open%2FRSI-ReferralQRGenerator" type="image/svg+xml"></object>
+                <object title="GitHub License Badge" data="https://img.shields.io/github/license/sc-open/RSI-ReferralQRGenerator?style=for-the-badge" type="image/svg+xml"></object>
+                <object title="GitHub Sponsors Badge" data="https://img.shields.io/github/sponsors/mistermatt1337?style=for-the-badge&logo=githubsponsors&link=https%3A%2F%2Fbit.ly%2F3TP4yKD" type="image/svg+xml"></object>
+                <object title="Patreon Sponsors Badge" data="https://img.shields.io/badge/Patreon-Support_us!-orange?style=for-the-badge&logo=patreon&link=https%3A%2F%2Fbit.ly%2FSCOpenDevPatreon" type="image/svg+xml"></object>
+                <object title="RSI Referral Badge" data="https://img.shields.io/badge/RSI-Enlist_now!-blue?style=for-the-badge&logo=spaceship&link=https%3A%2F%2Fbit.ly%2FSCBonus5K" type="image/svg+xml"></object>
+                <object title="Discord Badge" data="https://img.shields.io/discord/1113924866580684911?style=for-the-badge&logo=discord&logoColor=white&label=SC%20Open&color=gold&link=https%3A%2F%2Fbit.ly%2FSCOpen-Discord" type="image/svg+xml"></object>
             </div>
         </div>
     </div>
     <p id="disclaimer">This is an unofficial Star Citizen fansite, not affiliated with the Cloud Imperium group of companies. All content on this site not authored by its host or users are property of their respective owners.</p>
 </footer>
+
 <script>
     document.getElementById('actionButton').addEventListener('click', function(event) {
         let buttonText = event.target.textContent.toUpperCase();

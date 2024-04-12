@@ -1,3 +1,4 @@
+/* SC-Open.dev Styles CSS v0.1 */
 body {
     display: flex;
     flex-direction: column;
@@ -5,13 +6,31 @@ body {
     justify-content: center;
     height: 100vh;
     background-color: #121212;
-    color: #ffffff;       
+    color: #ffffff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 #label {
     font-size: 18px;
     color: #fff;
     margin-bottom: 10px;
-    justify-self: start;
+    text-align: start;
+}
+#inputData, #outputData {
+    width: 100%;
+    height: 25vh;
+    max-width: 100%;
+    max-height: 100%;
+    resize: both;
+    overflow: auto;
+    background-color: #dbdada;
+    color: #000;
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+#outputData {
+    display: none;
+    position: relative;
 }
 button {
     margin-top: 10px;
@@ -37,45 +56,6 @@ button:active {
     align-items: center;
     gap: 20px;
 }
-.input-group {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin: auto;
-}
-.input-group label {
-    flex-grow: 1;
-    text-align: left;
-}
-
-.input-group input {
-    flex-grow: 2;
-}
-#inputData {
-    position: relative;
-    text-align: left;
-    width: 80%;
-    height: 25vh;
-    max-width: 100%;
-    max-height: 100%;
-    resize: both;
-    overflow: auto;
-    background-color: #dbdada;
-    color: #000;
-    border-radius: 10px;
-    padding: 10px;
-    box-sizing: border-box;
-}
-#outputData {
-    display: none;
-    margin: 20px 20px;
-}
-#outputData #qrCode {
-    display: block;
-    margin: 0 auto;
-    padding: 20px;
-}
 .notification {
     display: flex;
     position: fixed;
@@ -92,55 +72,24 @@ button:active {
     justify-content: center;
     align-items: center;
 }
-#footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
+/* Customized CSS */
+#inputData input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
+    margin: auto;
+    flex-grow: 2;
 }
-#disclaimer {
-font-family: Arial, sans-serif;
-font-size: small;
-font-style: italic;
-color: lightgray;
+#inputData label {
+    flex-grow: 1;
+    text-align: left;
 }
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
-}
-/* Modal Content/Box */
-.modal-content {
-    background-color: #666;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+/* #appArea input {
+    flex-grow: 2;
+}*/
+#outputData #qrCode {
+    display: block;
+    margin: auto;
     padding: 20px;
-    border: 2px solid #333;
-    border-radius: 5px;
-    width: 80%;
-}
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
 }
