@@ -1,0 +1,43 @@
+{
+    "id": "io.github.sc-open.RIS-ReferralQRGenerator",
+    "lang": "en-us",
+    "name": "ReferralQRGenrator by SC-Open",
+    "short_name": "ReferralQR",
+    "description": "ReferralQRGenrator by SC-Open converts RSI referral codes into QR images.",
+    "start_url": "/RSI-ReferralQRGenerator/",
+    "background_color": "#000000",
+    "theme_color": "#2f3d58",
+    "orientation": "any",
+    "display": "standalone",
+    "scope": "/RSI-ReferralQRGenerator/",
+    "icons": [
+        {
+            "src": "/RSI-ReferralQRGenerator/img/16.png",
+            "sizes": "16x16"
+        },
+        {
+            "src": "/RSI-ReferralQRGenerator/img/32.png",
+            "sizes": "32x32"
+        },
+        {
+            "src": "/RSI-ReferralQRGenerator/img/48.png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "/RSI-ReferralQRGenerator/img/64.png",
+            "sizes": "64x64"
+        },
+        {
+            "src": "/RSI-ReferralQRGenerator/img/128.png",
+            "sizes": "128x128"
+        },
+        {
+            "src": "/RSI-ReferralQRGenerator/img/256.png",
+            "sizes": "256x256"
+        },
+        {
+            "src": "/RSI-ReferralQRGenerator/img/512.png",
+            "sizes": "512x512"
+        }
+    ]
+}

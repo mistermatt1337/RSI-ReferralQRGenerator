@@ -1,0 +1,12 @@
+{
+  "name": "sc-open_referralqrgenerator",
+  "version": "0.2.0",
+  "description": "ReferralQRGenrator by SC-Open converts RSI referral codes into QR images",
+  "browser": "window",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["ReferralQRGenerator", "RSI", "Referral", "QR", "Generator"],
+  "author": "",
+  "license": "MIT"
+}
