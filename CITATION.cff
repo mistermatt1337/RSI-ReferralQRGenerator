@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: ReferralQRGenerator
+message: "If you use this software, please cite it using the metadata from this file."
+type: software
+authors:
+  - name: SC-Open
+    website: "https://www.sc-open.dev"
+    alias: sc-open
+  - alias: mistermatt1337
+    affiliation: SC-Open
+    email: mistermatt1337@outlook.com
+repository-code: "https://github.com/SC-Open/RSI-ReferralQRGenerator/"
+url: "https://sc-open.github.io/RSI-ReferralQRGenerator/"
+abstract: "An SC-Open.dev project ReferralQRGenerator is a simple JavaScript tool to generate QR codes for RSI referral links."
+keywords:
+  - ReferralQRGenerator
+  - RSI-ReferralQRGenerator
+  - SC-Open
+license: MIT
