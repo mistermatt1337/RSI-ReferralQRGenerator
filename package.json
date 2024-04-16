@@ -6,7 +6,30 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["ReferralQRGenerator", "RSI", "Referral", "QR", "Generator"],
-  "author": "",
-  "license": "MIT"
+  "homepage": "https://github.com/SC-Open/RSI-ReferralQRGenerator#readme",
+  "author": "SC-Open",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SC-Open/RSI-ReferralQRGenerator.git"
+  },
+  "keywords": [
+    "ReferralQRGenerator",
+    "RSI",
+    "Referral",
+    "QR",
+    "Generator"
+  ],
+  "bugs": {
+    "url": "https://github.com/SC-Open/RSI-ReferralQRGenerator/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "easyqrcodejs": "^4.6.1",
+    "qrcode": "^1.4.4"
+  },
+  "devDependencies": {
+    "express": "^4.19.2",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
 }
