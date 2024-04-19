@@ -3,9 +3,10 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
-# Build output
+# Build-dev-test folders
 dist/
 build/
+tests/
 
 # Environment variables
 .env

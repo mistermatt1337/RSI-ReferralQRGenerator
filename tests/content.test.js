@@ -1,3 +1,5 @@
+const generateQR = require('../build/index');
+
 // Test case 1: Valid input
 let validInput = 'STAR-ABCD-EFGH';
 generateQR(validInput);

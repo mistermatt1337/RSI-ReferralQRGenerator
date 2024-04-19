@@ -4,12 +4,12 @@
     "name": "ReferralQRGenrator by SC-Open",
     "short_name": "ReferralQR",
     "description": "ReferralQRGenrator by SC-Open converts RSI referral codes into QR images.",
-    "start_url": "sc-open.github.io/RSI-ReferralQRGenerator/",
-    "background_color": "#000000",
+    "start_url": "/",
+    "background_color": "#121212",
     "theme_color": "#2f3d58",
     "orientation": "any",
     "display": "standalone",
-    "scope": "/RSI-ReferralQRGenerator/",
+    "scope": "/",
     "icons": [
         {
             "src": "/RSI-ReferralQRGenerator/img/16.png",
