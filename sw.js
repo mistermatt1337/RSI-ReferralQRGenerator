@@ -1,19 +1,18 @@
-const CACHE_NAME = `rsi-referralQRgenerator`;
+const CACHE_NAME = 'rsi-referralQRgenerator';
 
 // Use the install event to pre-cache all initial resources.
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     try {
-      // Fetch the manifest file
-      const response = await fetch('./manifest.webmanifest');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const manifest = await response.json();
-
+      /* Fetch the manifest file
+      response = await fetch('./manifest.webmanifest');
+      const manifestData = await response.json();
+      */
+      
       const cache = await caches.open(CACHE_NAME);
       await cache.addAll([
         './index.html',
+        './manifest.webmanifest',
         './js/content.js',
         './img/16.png',
         './img/32.png',
@@ -23,13 +22,14 @@ self.addEventListener('install', event => {
         './img/192.png',
         './img/256.png',
         './img/512.png',
-        'https://img.shields.io/badge/Referral_QR_generator-by_sc--open-gold?style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2FSC-Open%2FRSI-ReferralQRGenerator',
+        'https://img.shields.io/badge/https://img.shields.io/badge/Referral_QR_Generator-by_SC--Open-gold?style=for-the-badge&link=https%3A%2F%2Fgithub.com%2FSC-Open%2FRSI-ReferralQRGenerator',
         'https://img.shields.io/github/license/sc-open/RSI-Waves2Epochs?style=for-the-badge',
         'https://img.shields.io/github/sponsors/mistermatt1337?style=for-the-badge&logo=githubsponsors&link=https%3A%2F%2Fbit.ly%2F3TP4yKD',
         'https://img.shields.io/badge/Patreon-Support_us!-orange?style=for-the-badge&logo=patreon&link=https%3A%2F%2Fbit.ly%2FSCOpenDevPatreon',
         'https://img.shields.io/badge/RSI-Enlist_now!-blue?style=for-the-badge&logo=spaceship&link=https%3A%2F%2Fbit.ly%2FSCBonus5K',
         'https://img.shields.io/discord/1113924866580684911?style=for-the-badge&logo=discord&logoColor=white&label=SC%20Open&color=gold&link=https%3A%2F%2Fbit.ly%2FSCOpen-Discord',
       ]);
+
     } catch (err) {
       console.error('Error during service worker installation:', err);
     }
@@ -38,10 +38,7 @@ self.addEventListener('install', event => {
 
 async function evaluateAndCache(request, event) {
   // Fetch and parse the manifest.json file
-  const manifestResponse = await fetch('./manifest.json');
-  if (!manifestResponse.ok) {
-    throw new Error(`HTTP error! status: ${manifestResponse.status}`);
-  }
+  const manifestResponse = await fetch('./manifest.webmanifest');
   const manifest = await manifestResponse.json();
   // Use event if provided, otherwise use the global event
   event = event || self;
@@ -85,7 +82,10 @@ async function evaluateAndCache(request, event) {
       contentType = 'image/png';
       break;
       case 'json':
-    contentType = 'application/json'; // Add this line
+    contentType = 'application/json';
+    break;
+    case 'webmanifest':
+    contentType = 'application/manifest+json';
     break;
     // Add more cases as needed
   }
@@ -148,4 +148,21 @@ self.addEventListener('sync', (event) => {
   if (event.tag === 'fetch-new-content') {
     event.waitUntil(fetchNewContent(event));
   }
+});
+// Activate Functionality
+self.addEventListener('activate', event => {
+  event.waitUntil((async () => {
+    // Get the list of cache keys
+    const cacheKeys = await caches.keys();
+
+    // Delete old caches
+    await Promise.all(cacheKeys.map(async key => {
+      if (key !== CACHE_NAME) {
+        await caches.delete(key);
+      }
+    }));
+
+    // Call clients.claim to take control of all clients
+    self.clients.claim();
+  })());
 });
