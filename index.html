@@ -1,194 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RSI-ReferralQRGenerator | An SC-Open.dev Project</title>
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link rel="stylesheet" type="text/css" href="css/footer.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="64x64" href="img/favicon-64x64.png">
-    <script src="js/easy.qrcode.min.js"></script>
-</head>
-<body>
-<div id="appArea">
-    <div id="inputData">
-        <h1>RSI Referral QR Code Generator</h1>
-        <div class="box">
-            <label for="logoInput">Logo:</label>
-            <input type="file" id="logoInput" accept="image/*">
-        </div>
-        <div class="box">
-            <label for="backgroundInput">Background:</label>
-            <input type="file" id="backgroundInput" accept="image/*">
-        </div>
-        <div class="box">
-            <label for="referralCode">Referral Code:</label>
-            <input type="text" id="referralCode" placeholder="STAR-XXXX-XXXX" maxlength="64">
-            <script>
-                let referralCodeInput = document.getElementById('referralCode');
-                referralCodeInput.addEventListener('input', function() {
-                    // Only allow alphanumeric characters and hyphens
-                    this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '');
-                });
-            </script>
-        </div>
-        <div class="box"><button type="button" id="actionButton">Generate QR Code</button></div>
-    </div>
-    <div id="outputData">
-        <div id="qrcode" class="box"></div>
-    </div>
-</div>
-<footer id="footer">
-    <div class="box"><button type="button" id="aboutButton">About</button></div>
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h1>Like what we're doing? </h1><p>Here are some ways you can show your appreciation</p>
-            <div id="badges">
-                <object title="GitHub Organization Badge" data="https://img.shields.io/badge/SC--Open-gold?style=for-the-badge&link=https%3A%2F%2Fgithub.com%2FSC-Open" type="image/svg+xml"></object>
-                <object title="GitHub Repo Badge" data="https://img.shields.io/badge/RSI--ReferralQRGenerator-blue?style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2FSC-Open%2FRSI-ReferralQRGenerator" type="image/svg+xml"></object>
-                <object title="GitHub License Badge" data="https://img.shields.io/github/license/sc-open/RSI-ReferralQRGenerator?style=for-the-badge" type="image/svg+xml"></object>
-                <object title="GitHub Sponsors Badge" data="https://img.shields.io/github/sponsors/mistermatt1337?style=for-the-badge&logo=githubsponsors&link=https%3A%2F%2Fbit.ly%2F3TP4yKD" type="image/svg+xml"></object>
-                <object title="Patreon Sponsors Badge" data="https://img.shields.io/badge/Patreon-Support_us!-orange?style=for-the-badge&logo=patreon&link=https%3A%2F%2Fbit.ly%2FSCOpenDevPatreon" type="image/svg+xml"></object>
-                <object title="RSI Referral Badge" data="https://img.shields.io/badge/RSI-Enlist_now!-blue?style=for-the-badge&logo=spaceship&link=https%3A%2F%2Fbit.ly%2FSCBonus5K" type="image/svg+xml"></object>
-                <object title="Discord Badge" data="https://img.shields.io/discord/1113924866580684911?style=for-the-badge&logo=discord&logoColor=white&label=SC%20Open&color=gold&link=https%3A%2F%2Fbit.ly%2FSCOpen-Discord" type="image/svg+xml"></object>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Convert your Star Citizen Referral Links to QR Codes">
+<meta name="author" content="SC-Open.dev">
+<title>ReferralQRGenerator by SC-Open.dev</title>
+<link rel="icon" type="image/png" sizes="16x16" href="img/16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="img/32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="img/64.png">
+<link rel="icon" type="image/png" sizes="64x64" href="img/64.png">
+<link rel="icon" type="image/png" sizes="128x128" href="img/128.png">
+<link rel="icon" type="image/png" sizes="256x256" href="img/256.png">
+<link rel="icon" type="image/png" sizes="512x512" href="img/512.png">
+<link rel="apple-touch-icon" sizes="512x512" href="img/512.png">
+<link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="manifest" href="manifest.webmanifest">
+<body class="w3-dark-grey w3-center">
+<div class="w3-display-container w3-content w3-margin-top">
+    <div class="w3-container w3-padding-16 w3-center w3-card-4 w3-blue-grey w3-round-large" id="appArea">
+        <object class="w3-center w3-margin w3-hover-shadow" title="GitHub Repo Badge" data="https://img.shields.io/badge/Referral_QR_Generator-by_SC--Open-gold?style=for-the-badge&link=https%3A%2F%2Fgithub.com%2FSC-Open%2FRSI-ReferralQRGenerator" type="image/svg+xml"></object>
+        <div class="w3-col" id="inputData">
+            <div class="w3-center w3-margin">
+                <label class="w3-auto" for="logoInput">Logo:</label>
+                <input type="file" id="logoInput" accept="image/*">
+            </div>
+            <div class="w3-center w3-margin">
+                <label class="w3-auto" for="backgroundInput">Background:</label>
+                <input type="file" id="backgroundInput" accept="image/*">
+            </div>
+            <div class="w3-center">
+                <label class="w3-auto" for="referralCode">Referral Code:</label>
+                <input class="w3-input" type="text" id="referralCode" placeholder="STAR-XXXX-XXXX" maxlength="64">
+                <script>
+                    let referralCodeInput = document.getElementById('referralCode');
+                    referralCodeInput.addEventListener('input', function() {
+                        // Only allow alphanumeric characters and hyphens
+                        this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '');
+                    });
+                </script>
+            </div>
+            <div class="w3-padding w3-margin">
+                <button class="w3-btn w3-blue-grey" type="button" id="actionButton">Generate QR Code</button>
             </div>
         </div>
+        <di class="w3-auto" id="outputData">
+            <div id="qrcode" class="w3-padding-16"></div>
+        </div>
     </div>
-    <p id="disclaimer">This is an unofficial Star Citizen fansite, not affiliated with the Cloud Imperium group of companies. All content on this site not authored by its host or users are property of their respective owners.</p>
+</div>
+<modal id="myModal" class="w3-modal w3-round-large">
+    <div class="w3-modal-content w3-padding-16 w3-auto w3-card-4 w3-center w3-dark-grey w3-animate-bottom" id="modal-content">
+        <h2 class="w3-margin-top">Like what we're doing?</h2>
+        <p>Here are some ways you can show your appreciation</p>
+        <div class="w3-row">
+            <object title="GitHub Sponsors Badge" data="https://img.shields.io/github/sponsors/mistermatt1337?style=for-the-badge&logo=githubsponsors&link=https%3A%2F%2Fbit.ly%2F3TP4yKD" type="image/svg+xml"></object>
+            <object title="Patreon Sponsors Badge" data="https://img.shields.io/badge/Patreon-Support_us!-orange?style=for-the-badge&logo=patreon&link=https%3A%2F%2Fbit.ly%2FSCOpenDevPatreon" type="image/svg+xml"></object>
+            <object title="RSI Referral Badge" data="https://img.shields.io/badge/RSI-Enlist_now!-blue?style=for-the-badge&logo=spaceship&link=https%3A%2F%2Fbit.ly%2FSCBonus5K" type="image/svg+xml"></object>
+            <object title="Discord Badge" data="https://img.shields.io/discord/1113924866580684911?style=for-the-badge&logo=discord&logoColor=white&label=SC%20Open&color=gold&link=https%3A%2F%2Fbit.ly%2FSCOpen-Discord" type="image/svg+xml"></object>
+            <object title="GitHub License Badge" data="https://img.shields.io/github/license/sc-open/RSI-Waves2Epochs?style=for-the-badge" type="image/svg+xml"></object>
+        </div>
+        <p class="w3-small w3-margin" id="disclaimer">This is an unofficial Star Citizen fansite, not affiliated with the Cloud Imperium group of companies. All content on this site not authored by its host or users are property of their respective owners.</p>
+        <button class="w3-btn w3-grey w3-margin-bottom" id="closeModal" type="button">Close</button>
+    </div>
+</modal>
+<footer class="w3-block w3-bottom w3-center w3-blue-grey w3-margin-top">
+        <button class="w3-btn w3-blue-grey w3-margin-bottom" id="aboutButton" type="button">About</button>
 </footer>
-
+<script src="js/content.js"></script>
 <script>
-    document.getElementById('actionButton').addEventListener('click', function(event) {
-        let buttonText = event.target.textContent.toUpperCase();
-        if (buttonText.startsWith('GENERATE')) {
-            generateQR(event.target);
-        } else if (buttonText.startsWith('DOWNLOAD')) {
-            downloadQR(event.target);
-        } else if (buttonText.startsWith('RESET')) {
-            location.reload();
-        }
-    });
-    referallBase = 'https://robertsspaceindustries.com/?referral=';
-    async function generateQR(button) {
-        let input = document.getElementById('referralCode').value.toUpperCase();
-        let match = input.match(/STAR-\w{4}-\w{4}/i);
-        if (match) {
-            let data = match[0];
-            let url = referallBase + data;
-            let options = {
-                drawer: 'svg',
-                size: 256,
-                logo: await getLogoUrl(),
-                logoWidth: 64,
-                logoHeight: 64,
-                logoBackgroundColor: '#ffffff',
-                logoBackgroundTransparent: false,
-                backgroundImage: await getBackgroundUrl(),
-                backgroundImageAlpha: 0.5,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H,
-                text: url,
-                tooltip: true,
-            };
-            console.log(options);
-            let qrcode = new QRCode(document.getElementById("qrcode"), options);
-            document.getElementById('outputData').style.display = 'block';
-            document.getElementById('referralCode').disabled = true;
-            document.getElementById('logoInput').disabled = true;
-            document.getElementById('backgroundInput').disabled = true;
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            const scope = location.hostname === 'sc-open.github.io' ? '/RSI-ReferralQRGenerator/' : '/';
+            navigator.serviceWorker.register(scope + 'sw.js', {scope: scope}).then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
 
-            button.textContent = 'DOWNLOAD';
-        } else {
-            // Create a new notification element
-            let notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.textContent = 'Invalid input. Please enter a referral code in the format STAR-XXXX-XXXX.';
-            // Add the notification to the DOM
-            document.body.appendChild(notification);
-            // Remove the notification after 5 seconds
-            setTimeout(function() {
-                document.body.removeChild(notification);
-            }, 5000);
-        }
-    }
-    function downloadQR(button) {
-        let qrcode = document.getElementById('qrcode');
-        let canvas = qrcode.querySelector('canvas');
-        let svg = qrcode.querySelector('svg');
-    
-        if (canvas) {
-            let canvasData = canvas.toDataURL('image/png');
-            let a = document.createElement('a');
-            a.download = 'qrcode.png';
-            a.href = canvasData;
-            a.click();
-        } else if (svg) {
-            let svgData = new XMLSerializer().serializeToString(svg);
-            let a = document.createElement('a');
-            a.download = 'qrcode.svg';
-            a.href = 'data:image/svg+xml;base64,' + btoa(svgData);
-            a.click();
-        } else {
-            console.error('Neither canvas nor SVG element found');
-        }
-    
-        // Change the button text after a successful download
-        button.textContent = 'RESET';
-    }
-    function getLogoUrl() {
-        let logoInput = document.getElementById('logoInput');
-        if (logoInput.files.length > 0) {
-            return new Promise((resolve, reject) => {
-                let reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(logoInput.files[0]);
+                // Register background sync
+                registration.sync.register('fetch-new-content').then(() => {
+                    console.log('Background Sync registered');
+                }, function(err) {
+                    console.log('Background Sync registration failed: ', err);
+                });
+
+            }, function(err) {
+                console.log('ServiceWorker registration failed: ', err);
             });
-        } else {
-            return Promise.resolve(null); // No logo
-        }
-    }
-    
-    function getBackgroundUrl() {
-        let backgroundInput = document.getElementById('backgroundInput');
-        if (backgroundInput.files.length > 0) {
-            return new Promise((resolve, reject) => {
-                let reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(backgroundInput.files[0]);
-            });
-        } else {
-            return Promise.resolve(null); // No background
-        }
-    }
-    document.getElementById('aboutButton').addEventListener('click', function() {
-        openModal();
-    });
-    function openModal() {
-        console.log('openModal');
-        var modal = document.getElementById("myModal");
-        var span = document.getElementsByClassName("close")[0];
-        modal.style.display = "block";
-        span.addEventListener('click', function() {
-            closeModal(modal);
         });
-        window.addEventListener('click', function(event) {
-            closeOnOutsideClick(event, modal);
-        });
-    }
-    function closeModal(modal) {
-        modal.style.display = "none";
-    }
-    function closeOnOutsideClick(event, modal) {
-        if (event.target == modal) {
-            event.stopPropagation();
-            modal.style.display = "none";
-        }
     }
 </script>
 </body>

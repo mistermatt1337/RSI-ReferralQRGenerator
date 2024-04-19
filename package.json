@@ -1,0 +1,40 @@
+{
+  "name": "sc-open_referralqrgenerator",
+  "version": "0.5.0",
+  "description": "ReferralQRGenrator by SC-Open converts RSI referral codes into QR images.",
+  "browser": "window",
+  "scripts": {
+    "build": "webpack",
+    "start": "node tests/server.js",
+    "test": "jest tests/content.test.js"
+  },
+  "homepage": "https://github.com/SC-Open/RSI-ReferralQRGenerator#readme",
+  "author": "SC-Open",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SC-Open/RSI-ReferralQRGenerator.git"
+  },
+  "keywords": [
+    "ReferralQRGenerator",
+    "RSI",
+    "Referral",
+    "QR",
+    "Generator"
+  ],
+  "bugs": {
+    "url": "https://github.com/SC-Open/RSI-ReferralQRGenerator/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "easyqrcodejs": "^4.6.1"
+  },
+  "devDependencies": {
+    "express": "^4.19.2",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "main": "build/index.js",
+  "directories": {
+    "test": "tests"
+  }
+}
