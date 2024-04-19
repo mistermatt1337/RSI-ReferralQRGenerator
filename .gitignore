@@ -7,6 +7,7 @@ yarn-error.log
 dist/
 build/
 tests/
+server.js
 
 # Environment variables
 .env
