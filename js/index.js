@@ -1,6 +1,5 @@
 // index.js
-//import QRCode from 'easyqrcodejs';
-const { QRCode } = require('easyqrcodejs');
+import QRCode from 'easyqrcodejs';
 
 document.getElementById('actionButton').addEventListener('click', function(event) {
         let buttonText = event.target.textContent.toUpperCase();
@@ -14,46 +13,53 @@ document.getElementById('actionButton').addEventListener('click', function(event
     });
     let referralBase = 'https://robertsspaceindustries.com/?referral=';
     async function generateQR(button) {
-        let input = document.getElementById('referralCode').value.toUpperCase();
-        let match = input.match(/STAR-\w{4}-\w{4}/i);
-        if (match) {
-            let data = match[0];
-            let url = referralBase + data;
-            let options = {
-                drawer: 'svg',
-                size: 256,
-                logo: await getLogoUrl(),
-                logoWidth: 64,
-                logoHeight: 64,
-                logoBackgroundColor: '#ffffff',
-                logoBackgroundTransparent: false,
-                backgroundImage: await getBackgroundUrl(),
-                backgroundImageAlpha: 0.5,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H,
-                text: url,
-                tooltip: true,
-            };
-            console.log(options);
-            let qrcode = new QRCode(document.getElementById("qrcode"), options);
-            document.getElementById('outputData').style.display = 'block';
-            document.getElementById('referralCode').disabled = true;
-            document.getElementById('logoInput').disabled = true;
-            document.getElementById('backgroundInput').disabled = true;
+    try {
+        let logo = await getLogoUrl();
+        let backgroundImage = await getBackgroundUrl();
 
-            button.textContent = 'DOWNLOAD';
-        } else {
-            // Create a new notification element
-            let notification = document.createElement('div');
-            notification.classList = ('w3-panel', 'w3-red', 'w3-animate-top');
-            notification.textContent = 'Invalid input. Please enter a referral code in the format STAR-XXXX-XXXX.';
-            // Add the notification to the DOM
-            document.body.appendChild(notification);
-            // Remove the notification after 5 seconds
-            setTimeout(function() {
-                document.body.removeChild(notification);
-            }, 5000);
+            let input = document.getElementById('referralCode').value.toUpperCase();
+            let match = input.match(/STAR-\w{4}-\w{4}/i);
+            if (match) {
+                let data = match[0];
+                let url = referralBase + data;
+                let options = {
+                    drawer: 'svg',
+                    size: 256,
+                    logo: logo,
+                    logoWidth: 64,
+                    logoHeight: 64,
+                    logoBackgroundColor: '#ffffff',
+                    logoBackgroundTransparent: false,
+                    backgroundImage: backgroundImage,
+                    backgroundImageAlpha: 0.5,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H,
+                    text: url,
+                    tooltip: true,
+                };
+                console.log(options);
+                let qrcode = new QRCode(document.getElementById("qrcode"), options);
+                document.getElementById('outputData').style.display = 'block';
+                document.getElementById('referralCode').disabled = true;
+                document.getElementById('logoInput').disabled = true;
+                document.getElementById('backgroundInput').disabled = true;
+
+                button.textContent = 'DOWNLOAD';
+            } else {
+                // Create a new notification element
+                let notification = document.createElement('div');
+                notification.classList = ('w3-panel', 'w3-red', 'w3-animate-top');
+                notification.textContent = 'Invalid input. Please enter a referral code in the format STAR-XXXX-XXXX.';
+                // Add the notification to the DOM
+                document.body.appendChild(notification);
+                // Remove the notification after 5 seconds
+                setTimeout(function() {
+                    document.body.removeChild(notification);
+                }, 5000);
+            }
+        } catch (error) {
+            console.error('Error generating QR code:', error);
         }
     }
     function downloadQR(button) {
@@ -85,10 +91,14 @@ document.getElementById('actionButton').addEventListener('click', function(event
     let logoInput = document.getElementById('logoInput');
     if (logoInput.files.length > 0) {
         return new Promise((resolve, reject) => {
-            let reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(logoInput.files[0]);
+            try {
+                let reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(logoInput.files[0]);
+            } catch (error) {
+                console.error('Error reading logo file:', error);
+            }
         });
     } else {
         return Promise.resolve(null); // No logo
@@ -98,10 +108,14 @@ function getBackgroundUrl() {
     let backgroundInput = document.getElementById('backgroundInput');
     if (backgroundInput.files.length > 0) {
         return new Promise((resolve, reject) => {
-            let reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(backgroundInput.files[0]);
+            try {
+                let reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(backgroundInput.files[0]);
+            } catch (error) {
+                console.error('Error reading background file:', error);
+            }
         });
     } else {
         return Promise.resolve(null); // No background
@@ -109,14 +123,29 @@ function getBackgroundUrl() {
 }
 
 // About button event listener for modal
-document.getElementById('aboutButton').addEventListener('click', function() {
-    modal(true, false);
-});
+var aboutButton = document.getElementById('aboutButton');
+if (aboutButton) {
+    aboutButton.addEventListener('click', function() {
+        modal(true, false);
+    });
+} else {
+    console.error("Element with id 'aboutButton' not found");
+}
 
 // Modal functions
 function modal(openModal, closeModal) {
     var modal = document.getElementById("myModal");
     var span = document.getElementById("closeModal");
+
+    if (!modal) {
+        console.error("Element with id 'myModal' not found");
+        return;
+    }
+
+    if (!span) {
+        console.error("Element with id 'closeModal' not found");
+        return;
+    }
 
     // Close button event handler
     span.onclick = function() {
@@ -136,5 +165,3 @@ function modal(openModal, closeModal) {
         modal.style.display = 'none';
     }
 }
-
-module.exports = generateQR;

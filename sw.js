@@ -6,6 +6,9 @@ self.addEventListener('install', event => {
     try {
       // Fetch the manifest file
       const response = await fetch('./manifest.webmanifest');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const manifest = await response.json();
 
       const cache = await caches.open(CACHE_NAME);
@@ -34,6 +37,12 @@ self.addEventListener('install', event => {
 });
 
 async function evaluateAndCache(request, event) {
+  // Fetch and parse the manifest.json file
+  const manifestResponse = await fetch('./manifest.json');
+  if (!manifestResponse.ok) {
+    throw new Error(`HTTP error! status: ${manifestResponse.status}`);
+  }
+  const manifest = await manifestResponse.json();
   // Use event if provided, otherwise use the global event
   event = event || self;
   // Try to get the response from the network
@@ -75,6 +84,9 @@ async function evaluateAndCache(request, event) {
     case 'png':
       contentType = 'image/png';
       break;
+      case 'json':
+    contentType = 'application/json'; // Add this line
+    break;
     // Add more cases as needed
   }
   // This code seeks to solve some content header issues
