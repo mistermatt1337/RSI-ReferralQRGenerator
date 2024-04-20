@@ -12,31 +12,31 @@
     "scope": "/RSI-ReferralQRGenerator/",
     "icons": [
         {
-            "src": "/img/16.png",
+            "src": "/RSI-ReferralQRGenerator/img/16.png",
             "sizes": "16x16"
         },
         {
-            "src": "/img/32.png",
+            "src": "/RSI-ReferralQRGenerator/img/32.png",
             "sizes": "32x32"
         },
         {
-            "src": "/img/48.png",
+            "src": "/RSI-ReferralQRGenerator/img/48.png",
             "sizes": "48x48"
         },
         {
-            "src": "/img/64.png",
+            "src": "/RSI-ReferralQRGenerator/img/64.png",
             "sizes": "64x64"
         },
         {
-            "src": "/img/128.png",
+            "src": "/RSI-ReferralQRGenerator/img/128.png",
             "sizes": "128x128"
         },
         {
-            "src": "/img/256.png",
+            "src": "/RSI-ReferralQRGenerator/img/256.png",
             "sizes": "256x256"
         },
         {
-            "src": "/img/512.png",
+            "src": "/RSI-ReferralQRGenerator/img/512.png",
             "sizes": "512x512"
         }
     ]
