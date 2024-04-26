@@ -1,5 +1,5 @@
 # RSI-ReferralQRGenerator
-![Static Badge](https://img.shields.io/badge/RSI_ReferralQRGenerator-SC_Open_dev-gold?style=for-the-badge&logo=github&link=https%3A%2F%2Fsc-open.github.io%2FRSI-ReferralQRGenerator%2F)
+![Static Badge](https://img.shields.io/badge/RSI_ReferralQRGenerator-SC_Open_dev-gold?logo=github&link=https%3A%2F%2Fsc-open.github.io%2FRSI-ReferralQRGenerator%2F)
 
 A simple QR code generator for RSI referral codes.
 

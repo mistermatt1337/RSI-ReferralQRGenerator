@@ -1,27 +1,20 @@
-const CACHE_NAME = 'rsi-referralQRgenerator';
+// PWA Service Worker
+const CACHE_NAME = `${self.location.pathname}`;
 
-// Use the install event to pre-cache all initial resources.
+// PWA Install Functionality
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     try {
-      /* Fetch the manifest file
-      response = await fetch('./manifest.webmanifest');
-      const manifestData = await response.json();
-      */
-      
+      // Fetch the manifest file
+      const manifestResponse = await fetch('./manifest.webmanifest');
+      const manifest = await manifestResponse.json();
+
+      // Extract the resources you want to cache from the manifest
+      const resources = [manifest.start_url, ...manifest.icons.map(icon => icon.src)];
+
       const cache = await caches.open(CACHE_NAME);
-      await cache.addAll([
-        './index.html',
-        './manifest.webmanifest',
+      await cache.addAll([...resources, 
         './js/content.js',
-        './img/16.png',
-        './img/32.png',
-        './img/48.png',
-        './img/64.png',
-        './img/128.png',
-        './img/192.png',
-        './img/256.png',
-        './img/512.png',
         'https://img.shields.io/badge/https://img.shields.io/badge/Referral_QR_Generator-by_SC--Open-gold?style=for-the-badge&link=https%3A%2F%2Fgithub.com%2FSC-Open%2FRSI-ReferralQRGenerator',
         'https://img.shields.io/github/license/sc-open/RSI-Waves2Epochs?style=for-the-badge',
         'https://img.shields.io/github/sponsors/mistermatt1337?style=for-the-badge&logo=githubsponsors&link=https%3A%2F%2Fbit.ly%2F3TP4yKD',
@@ -99,6 +92,7 @@ async function evaluateAndCache(request, event) {
   return newResponse;
 }
 
+// PWA Offline Functionality
 self.addEventListener('fetch', event => {
   event.respondWith((async () => {
     try {
@@ -122,10 +116,10 @@ self.addEventListener('fetch', event => {
   })());
 });
 
-// Background Sync Functionality
+// Use with Sync Functionality
 async function fetchNewContent(event) {
   // Fetch and parse the manifest.json file
-  const manifestResponse = await fetch('./manifest.json');
+  const manifestResponse = await fetch('./manifest.webmanifest');
   const manifest = await manifestResponse.json();
 
   // Extract the resources you want to fetch from the manifest
@@ -143,26 +137,29 @@ async function fetchNewContent(event) {
     }
   }));
 }
-
+// PWA Background Sync Functionality
 self.addEventListener('sync', (event) => {
   if (event.tag === 'fetch-new-content') {
     event.waitUntil(fetchNewContent(event));
   }
 });
-// Activate Functionality
+// PWA Periodic Sync Functionality
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'fetch-new-content') {
+    event.waitUntil(fetchNewContent(event));
+  }
+});
+// Cleanup old caches
 self.addEventListener('activate', event => {
-  event.waitUntil((async () => {
-    // Get the list of cache keys
-    const cacheKeys = await caches.keys();
-
-    // Delete old caches
-    await Promise.all(cacheKeys.map(async key => {
-      if (key !== CACHE_NAME) {
-        await caches.delete(key);
-      }
-    }));
-
-    // Call clients.claim to take control of all clients
-    self.clients.claim();
-  })());
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (CACHE_NAME !== cacheName) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).then(() => self.clients.claim()) // Claim the clients to make sure the active service worker is used
+  );
 });
