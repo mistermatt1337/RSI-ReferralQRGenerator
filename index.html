@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Convert your Star Citizen Referral Links to QR Codes">
 <meta name="author" content="SC-Open.dev">
+<meta name="keywords" content="Star Citizen, Referral, QR Code, Generator, SC-Open.dev">
 <title>ReferralQRGenerator by SC-Open.dev</title>
-<link rel="icon" type="image/png" sizes="16x16" href="img/16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="img/32.png">
-<link rel="icon" type="image/png" sizes="48x48" href="img/64.png">
-<link rel="icon" type="image/png" sizes="64x64" href="img/64.png">
-<link rel="icon" type="image/png" sizes="128x128" href="img/128.png">
-<link rel="icon" type="image/png" sizes="256x256" href="img/256.png">
-<link rel="icon" type="image/png" sizes="512x512" href="img/512.png">
-<link rel="apple-touch-icon" sizes="512x512" href="img/512.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./img/16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./img/32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="./img/48.png">
+<link rel="icon" type="image/png" sizes="64x64" href="./img/64.png">
+<link rel="icon" type="image/png" sizes="128x128" href="./img/128.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./img/192.png">
+<link rel="icon" type="image/png" sizes="256x256" href="./img/256.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./img/512.png">
+<link rel="apple-touch-icon" sizes="512x512" href="./img/512.png">
 <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
+
 <link rel="manifest" href="manifest.webmanifest">
 <body class="w3-dark-grey w3-center">
 <div class="w3-display-container w3-content w3-margin-top">
@@ -67,25 +70,6 @@
         <button class="w3-btn w3-blue-grey w3-margin-bottom" id="aboutButton" type="button">About</button>
 </footer>
 <script src="js/content.js"></script>
-<script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            const scope = location.hostname === 'sc-open.github.io' ? '/RSI-ReferralQRGenerator/' : '/';
-            navigator.serviceWorker.register(scope + 'sw.js', {scope: scope}).then(function(registration) {
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-
-                // Register background sync
-                registration.sync.register('fetch-new-content').then(() => {
-                    console.log('Background Sync registered');
-                }, function(err) {
-                    console.log('Background Sync registration failed: ', err);
-                });
-
-            }, function(err) {
-                console.log('ServiceWorker registration failed: ', err);
-            });
-        });
-    }
-</script>
+<script src="register-sw.js"></script>
 </body>
 </html>
